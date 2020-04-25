@@ -29,6 +29,19 @@ public class Car {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Car compared = (Car) o;
+        return plate.equals(compared.plate) && color.equals(compared.color);
+    }
+
+    @Override
     public String toString() {
         return "Car{" +
                 "plate='" + plate + '\'' +

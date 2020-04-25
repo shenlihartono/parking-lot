@@ -1,9 +1,6 @@
 package inc.park.models;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 public class ParkingLot {
     private Map<Integer, Car> parkingSlots;
@@ -69,5 +66,17 @@ public class ParkingLot {
         return parkingSlots.get(i);
     }
 
+    public List<ParkingLotStatus> getStatus() {
+        if (availableSlots.size() == size) {
+            return null;
+        }
 
+        List<ParkingLotStatus> status = new ArrayList<>();
+        this.parkingSlots.forEach((k, v) -> {
+                    if (v != null) status.add(new ParkingLotStatus(k, v));
+                }
+        );
+
+        return status;
+    }
 }

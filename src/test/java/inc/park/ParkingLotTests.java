@@ -2,8 +2,11 @@ package inc.park;
 
 import inc.park.models.Car;
 import inc.park.models.ParkingLot;
+import inc.park.models.ParkingLotStatus;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -154,6 +157,49 @@ public class ParkingLotTests {
 
         Set<Integer> avSlots = parkingLot.getAvailableSLots();
         assertThat(avSlots.size(), equalTo(3));
+    }
+
+    @Test
+    public void status() {
+        ParkingLot parkingLot = new ParkingLot(5);
+        parkingLot.create();
+
+        // when no cars parked at all
+        List<ParkingLotStatus> status = parkingLot.getStatus();
+        assertThat(status, equalTo(null));
+
+        // park 5 cars, remove slot#2 and slot#4, then get the status
+        Car car1 = new Car("ABC", "White");
+        parkingLot.park(car1);
+
+        List<ParkingLotStatus> expStatus = new ArrayList<>();
+        expStatus.add(new ParkingLotStatus(1, car1));
+
+        status = parkingLot.getStatus();
+        assertThat(status, equalTo(expStatus));
+
+        Car car2 = new Car("", "");
+        parkingLot.park(car2);
+
+        Car car3 = new Car("XYZ", "Red");
+        parkingLot.park(car3);
+
+        Car car4 = new Car("", "");
+        parkingLot.park(car4);
+
+        Car car5 = new Car("DEF", "Black");
+        parkingLot.park(car5);
+
+        parkingLot.leave(2);
+        parkingLot.leave(4);
+
+        expStatus = new ArrayList<>();
+        expStatus.add(new ParkingLotStatus(1, car1));
+        expStatus.add(new ParkingLotStatus(3, car3));
+        expStatus.add(new ParkingLotStatus(5, car5));
+
+        List<ParkingLotStatus> result = parkingLot.getStatus();
+        assertThat(result, equalTo(expStatus));
     }
 
 }
