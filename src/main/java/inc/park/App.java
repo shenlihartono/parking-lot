@@ -1,5 +1,6 @@
 package inc.park;
 
+import inc.park.enums.ActionTypes;
 import inc.park.process.CommandParser;
 
 import java.util.Scanner;
@@ -11,11 +12,10 @@ public class App {
 
         do {
             String s = scanner.nextLine();
-            if (s.equalsIgnoreCase("exit")) {
+            if (s.equalsIgnoreCase(ActionTypes.EXIT.getAction())) {
                 System.exit(0);
             } else {
-                String result = cmp.process(s);
-                System.out.println(result);
+                cmp.process(s);
             }
         } while (true);
     }
