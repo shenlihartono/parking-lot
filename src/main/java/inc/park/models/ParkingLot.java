@@ -43,4 +43,17 @@ public class ParkingLot {
 
         return "Allocated slot number: " + slot;
     }
+
+    public String leave(int i) {
+        if (i > size || i < 1) {
+            return "Slot number outside of range";
+        }
+
+        boolean isAvailableSlot = this.availableSlots.contains(i);
+        if (isAvailableSlot) {
+            return "No car found in slot " + i;
+        }
+
+        return "Slot number " + i + " is free";
+    }
 }

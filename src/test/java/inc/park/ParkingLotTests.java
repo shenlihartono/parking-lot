@@ -74,4 +74,31 @@ public class ParkingLotTests {
         result = parkingLot.park(car);
         assertThat(result, is("Sorry, parking lot is full"));
     }
+
+    @Test
+    public void leaveParkingLot() {
+        ParkingLot parkingLot = new ParkingLot(3);
+        parkingLot.create();
+
+        parkingLot.park(new Car());
+        String result = parkingLot.leave(1);
+        assertThat(result, is("Slot number 1 is free"));
+
+        //when slot still free (no car)
+        result = parkingLot.leave(2);
+        assertThat(result, is("No car found in slot 2"));
+        result = parkingLot.leave(3);
+        assertThat(result, is("No car found in slot 3"));
+
+        //when slot number is outside of range
+        result = parkingLot.leave(4);
+        assertThat(result, is("Slot number outside of range"));
+        result = parkingLot.leave(-5);
+        assertThat(result, is("Slot number outside of range"));
+
+        parkingLot.park(new Car());
+        result = parkingLot.leave(2);
+        assertThat(result, is("Slot number 2 is free"));
+    }
+
 }
