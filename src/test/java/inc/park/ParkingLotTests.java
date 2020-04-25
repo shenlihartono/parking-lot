@@ -251,4 +251,62 @@ public class ParkingLotTests {
         plates = parkingLot.getLicensePlatesFromColor("Pink");
         assertThat(plates, equalTo(pinkPlates));
     }
+
+    @Test
+    public void getSlotNumberFromColor() {
+        ParkingLot parkingLot = new ParkingLot(5);
+        parkingLot.create();
+
+        // when no cars parked at all
+        List<Integer> plates = parkingLot.getSlotNumberFromColor("White");
+        assertThat(plates, equalTo(null));
+
+        // when parking: KA-01-HH-1234 White
+        Car car = new Car("KA-01-HH-1234", "White");
+        String result = parkingLot.park(car);
+        String slotNo = result.substring(result.indexOf(":") + 1);
+        int slotNo1 = Integer.parseInt(slotNo.trim());
+
+        // when parking another car: KA-01-HH-9999 White
+        car = new Car("KA-01-HH-9999", "White");
+        result = parkingLot.park(car);
+        slotNo = result.substring(result.indexOf(":") + 1);
+        int slotNo2 = Integer.parseInt(slotNo.trim());
+
+        // park: KA-01-BB-0001 Black
+        car = new Car("KA-01-BB-0001", "Black");
+        result = parkingLot.park(car);
+        slotNo = result.substring(result.indexOf(":") + 1);
+        int slotNo3 = Integer.parseInt(slotNo.trim());
+
+        // park another car
+        car = new Car("KA-01-HH-7777", "Red");
+        result = parkingLot.park(car);
+        slotNo = result.substring(result.indexOf(":") + 1);
+        int slotNo4 = Integer.parseInt(slotNo.trim());
+
+        // test white plates
+        List<Integer> whitePlates = new ArrayList<>();
+        whitePlates.add(slotNo1);
+        whitePlates.add(slotNo2);
+        plates = parkingLot.getSlotNumberFromColor("White");
+        assertThat(plates, equalTo(whitePlates));
+
+        // test black plates
+        List<Integer> blackPlates = new ArrayList<>();
+        blackPlates.add(slotNo3);
+        plates = parkingLot.getSlotNumberFromColor("Black");
+        assertThat(plates, equalTo(blackPlates));
+
+        // test red plates
+        List<Integer> redPlates = new ArrayList<>();
+        redPlates.add(slotNo4);
+        plates = parkingLot.getSlotNumberFromColor("Red");
+        assertThat(plates, equalTo(redPlates));
+
+        // test pink plates
+        List<Integer> pinkPlates = new ArrayList<>();
+        plates = parkingLot.getSlotNumberFromColor("Pink");
+        assertThat(plates, equalTo(pinkPlates));
+    }
 }
