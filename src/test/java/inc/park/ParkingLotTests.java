@@ -1,7 +1,7 @@
 package inc.park;
 
 import inc.park.models.Car;
-import inc.park.models.ParkingLot;
+import inc.park.process.ParkingLot;
 import inc.park.models.ParkingLotStatus;
 import org.junit.jupiter.api.Test;
 
@@ -17,45 +17,45 @@ import static org.hamcrest.Matchers.is;
 public class ParkingLotTests {
     @Test
     public void createParkingLot() {
-        ParkingLot parkingLot = new ParkingLot(6);
-        String result = parkingLot.create();
+        ParkingLot parkingLot = new ParkingLot();
+        String result = parkingLot.create(6);
         assertThat(result, is("Created a parking lot with 6 slots"));
 
-        parkingLot = new ParkingLot(5);
-        result = parkingLot.create();
+        parkingLot = new ParkingLot();
+        result = parkingLot.create(5);
         assertThat(result, is("Created a parking lot with 5 slots"));
     }
 
     @Test
     public void getParkingSlots() {
-        ParkingLot parkingLot = new ParkingLot(6);
-        parkingLot.create();
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.create(6);
         Map slots = parkingLot.getAllSlots();
         assertThat(slots.size(), equalTo(6));
 
-        parkingLot = new ParkingLot(5);
-        parkingLot.create();
+        parkingLot = new ParkingLot();
+        parkingLot.create(5);
         slots = parkingLot.getAllSlots();
         assertThat(slots.size(), equalTo(5));
     }
 
     @Test
     public void getAvailableSlots() {
-        ParkingLot parkingLot = new ParkingLot(6);
-        parkingLot.create();
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.create(6);
         Set<Integer> slots = parkingLot.getAvailableSLots();
         assertThat(slots.size(), equalTo(6));
 
-        parkingLot = new ParkingLot(5);
-        parkingLot.create();
+        parkingLot = new ParkingLot();
+        parkingLot.create(5);
         slots = parkingLot.getAvailableSLots();
         assertThat(slots.size(), equalTo(5));
     }
 
     @Test
     public void parking() {
-        ParkingLot parkingLot = new ParkingLot(3);
-        parkingLot.create();
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.create(3);
 
         // when parking: KA-01-HH-1234 White
         Car car = new Car("KA-01-HH-1234", "White");
@@ -80,8 +80,8 @@ public class ParkingLotTests {
 
     @Test
     public void leaveParkingLot() {
-        ParkingLot parkingLot = new ParkingLot(3);
-        parkingLot.create();
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.create(3);
 
         parkingLot.park(new Car());
         String result = parkingLot.leave(1);
@@ -108,8 +108,8 @@ public class ParkingLotTests {
 
     @Test
     public void getParkedCar() {
-        ParkingLot parkingLot = new ParkingLot(3);
-        parkingLot.create();
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.create(3);
 
         // when no car park initially
         Car car = parkingLot.getCarParkedAt(1);
@@ -161,8 +161,8 @@ public class ParkingLotTests {
 
     @Test
     public void status() {
-        ParkingLot parkingLot = new ParkingLot(5);
-        parkingLot.create();
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.create(5);
 
         // when no cars parked at all
         List<ParkingLotStatus> status = parkingLot.getStatus();
@@ -204,8 +204,8 @@ public class ParkingLotTests {
 
     @Test
     public void getLicenseFromColor() {
-        ParkingLot parkingLot = new ParkingLot(5);
-        parkingLot.create();
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.create(5);
 
         // when no cars parked at all
         List<String> plates = parkingLot.getLicensePlatesFromColor("White");
@@ -254,8 +254,8 @@ public class ParkingLotTests {
 
     @Test
     public void getSlotNumberFromColor() {
-        ParkingLot parkingLot = new ParkingLot(5);
-        parkingLot.create();
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.create(5);
 
         // when no cars parked at all
         List<Integer> number = parkingLot.getSlotNumberFromColor("White");
@@ -312,8 +312,8 @@ public class ParkingLotTests {
 
     @Test
     public void getSlotNumberFromPlate() {
-        ParkingLot parkingLot = new ParkingLot(5);
-        parkingLot.create();
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.create(5);
 
         // when no cars parked at all
         int number = parkingLot.getSlotNumberFromPlate("KA-01-HH-1234");

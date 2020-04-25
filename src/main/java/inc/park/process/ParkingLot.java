@@ -1,24 +1,25 @@
-package inc.park.models;
+package inc.park.process;
+
+import inc.park.models.Car;
+import inc.park.models.ParkingLotStatus;
 
 import java.util.*;
 
 public class ParkingLot {
     private Map<Integer, Car> parkingSlots;
-    private final int size;
+    private int size;
     private TreeSet<Integer> availableSlots;
 
-    public ParkingLot(int size) {
+    public String create(int size) {
         this.parkingSlots = new TreeMap<>();
         this.availableSlots = new TreeSet<>();
         this.size = size;
-    }
 
-    public String create() {
-        for (int i = 1; i <= size; i++) {
+        for (int i = 1; i <= this.size; i++) {
             parkingSlots.put(i, null);
             availableSlots.add(i);
         }
-        return "Created a parking lot with " + size + " slots";
+        return "Created a parking lot with " + this.size + " slots";
     }
 
     public Map<Integer, Car> getAllSlots() {
