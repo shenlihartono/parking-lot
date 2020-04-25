@@ -1,9 +1,9 @@
 package inc.park;
 
 import inc.park.models.ParkingLot;
-import inc.park.models.ParkingSlot;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,12 +25,14 @@ public class ParkingLotTests {
     @Test
     public void getParkingSlots() {
         ParkingLot parkingLot = new ParkingLot(6);
-        ParkingSlot[] slots = parkingLot.getAllSlots();
-        assertThat(slots.length, equalTo(6));
+        parkingLot.create();
+        Map slots = parkingLot.getAllSlots();
+        assertThat(slots.size(), equalTo(6));
 
         parkingLot = new ParkingLot(5);
+        parkingLot.create();
         slots = parkingLot.getAllSlots();
-        assertThat(slots.length, equalTo(5));
+        assertThat(slots.size(), equalTo(5));
     }
 
     @Test
