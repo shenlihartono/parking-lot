@@ -4,6 +4,8 @@ import inc.park.models.ParkingLot;
 import inc.park.models.ParkingSlot;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -29,5 +31,12 @@ public class ParkingLotTests {
         parkingLot = new ParkingLot(5);
         slots = parkingLot.getAllSlots();
         assertThat(slots.length, equalTo(5));
+    }
+
+    @Test
+    public void getAvailableSlots() {
+        ParkingLot parkingLot = new ParkingLot(6);
+        Set<Integer> slots = parkingLot.getAvailableSLots();
+        assertThat(slots.size(), equalTo(6));
     }
 }
