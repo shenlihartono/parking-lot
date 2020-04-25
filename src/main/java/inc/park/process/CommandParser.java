@@ -4,6 +4,7 @@ import inc.park.enums.ActionTypes;
 import inc.park.models.Car;
 import inc.park.models.ParkingLotStatus;
 
+import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,7 +65,7 @@ public class CommandParser {
             for (ParkingLotStatus s : status) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(s.getSlot());
-                sb.append("\t\t\t");
+                sb.append("\t\t");
                 sb.append(s.getCar().getPlate());
                 sb.append("\t\t");
                 sb.append(s.getCar().getColor());
@@ -94,6 +95,27 @@ public class CommandParser {
             System.out.println(joinedString);
         } else {
             System.out.println("No vehicle in parking");
+        }
+    }
+
+    public void parseFileInput(String filePath) {
+        File inputFile = new File(filePath);
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(inputFile));
+            String line;
+            try {
+                while ((line = br.readLine()) != null) {
+                    this.process(line.trim());
+                }
+            } catch (IOException ex) {
+                System.out.println("Error in reading the input file.");
+                ex.printStackTrace();
+                System.exit(1);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in the path specified.");
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 }
