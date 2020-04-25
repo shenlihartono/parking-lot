@@ -79,4 +79,17 @@ public class ParkingLot {
 
         return status;
     }
+
+    public List<String> getLicensePlatesFromColor(String color) {
+        if (availableSlots.size() == size) {
+            return null;
+        }
+
+        List<String> plates = new ArrayList<>();
+        parkingSlots.entrySet().stream()
+                .filter(p -> p.getValue() != null && p.getValue().getColor().equals(color))
+                .forEach((entry) -> plates.add(entry.getValue().getPlate()));
+
+        return plates;
+    }
 }
