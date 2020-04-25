@@ -18,7 +18,7 @@ public class ParkingLot {
 
     public String create() {
         for (int i = 1; i <= size; i++) {
-            parkingSlots.put(i, new Car());
+            parkingSlots.put(i, null);
             availableSlots.add(i);
         }
         return "Created a parking lot with " + size + " slots";
@@ -39,6 +39,7 @@ public class ParkingLot {
         }
 
         Integer slot = this.availableSlots.first();
+        parkingSlots.put(slot, car);
         this.availableSlots.remove(slot);
 
         return "Allocated slot number: " + slot;
@@ -54,6 +55,19 @@ public class ParkingLot {
             return "No car found in slot " + i;
         }
 
+        this.parkingSlots.put(i, null);
+        this.availableSlots.add(i);
         return "Slot number " + i + " is free";
     }
+
+    public Car getCarParkedAt(int i) {
+        boolean isAvailableSlot = this.availableSlots.contains(i);
+        if (isAvailableSlot) {
+            return null;
+        }
+
+        return parkingSlots.get(i);
+    }
+
+
 }

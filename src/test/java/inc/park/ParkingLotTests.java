@@ -96,9 +96,64 @@ public class ParkingLotTests {
         result = parkingLot.leave(-5);
         assertThat(result, is("Slot number outside of range"));
 
-        parkingLot.park(new Car());
-        result = parkingLot.leave(2);
-        assertThat(result, is("Slot number 2 is free"));
+        result = parkingLot.park(new Car());
+        String slotNo = result.substring(result.indexOf(":") + 1);
+        int slot = Integer.parseInt(slotNo.trim());
+        result = parkingLot.leave(slot);
+        assertThat(result, is("Slot number " + slot + " is free"));
+    }
+
+    @Test
+    public void getParkedCar() {
+        ParkingLot parkingLot = new ParkingLot(3);
+        parkingLot.create();
+
+        // when no car park initially
+        Car car = parkingLot.getCarParkedAt(1);
+        assertThat(car, equalTo(null));
+
+        // park 1st car, and get the car parked at that location
+        Car myCar = new Car("KA-01-HH-1234", "White");
+        String result = parkingLot.park(myCar);
+
+        String slotNo = result.substring(result.indexOf(":") + 1);
+        int slot = Integer.parseInt(slotNo.trim());
+
+        Car myParkedCar = parkingLot.getCarParkedAt(slot);
+        assertThat(myParkedCar, equalTo(myCar));
+
+        // when slot number is outside of range
+        Car mysteriousCar = parkingLot.getCarParkedAt(4);
+        assertThat(mysteriousCar, equalTo(null));
+
+        mysteriousCar = parkingLot.getCarParkedAt(-5);
+        assertThat(mysteriousCar, equalTo(null));
+
+        // park 2nd car, and get the car parked at that location
+        Car anotherCar = new Car("KA-01-HH-9999", "Black");
+        result = parkingLot.park(anotherCar);
+
+        slotNo = result.substring(result.indexOf(":") + 1);
+        slot = Integer.parseInt(slotNo.trim());
+
+        Car anotherParkedCar = parkingLot.getCarParkedAt(slot);
+        assertThat(anotherParkedCar, equalTo(anotherCar));
+
+        // leave car slot#1 and get parked car at slot#1
+        parkingLot.leave(1);
+        Car targetCar = parkingLot.getCarParkedAt(1);
+        assertThat(targetCar, equalTo(null));
+
+        //do the same to car slot#2
+        parkingLot.leave(2);
+        targetCar = parkingLot.getCarParkedAt(2);
+        assertThat(targetCar, equalTo(null));
+
+        Map<Integer, Car> allSlots = parkingLot.getAllSlots();
+        assertThat(allSlots.size(), equalTo(3));
+
+        Set<Integer> avSlots = parkingLot.getAvailableSLots();
+        assertThat(avSlots.size(), equalTo(3));
     }
 
 }
