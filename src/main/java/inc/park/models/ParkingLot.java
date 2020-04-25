@@ -11,14 +11,13 @@ public class ParkingLot {
     public ParkingLot(int size) {
         this.parkingSlots = new ParkingSlot[size];
         this.availableSlots = new TreeSet<>();
-        for (int i = 0; i < size; i++) {
-            availableSlots.add(i);
-        }
-
         this.size = size;
     }
 
     public String create() {
+        for (int i = 0; i < size; i++) {
+            availableSlots.add(i);
+        }
         return "Created a parking lot with " + size + " slots";
     }
 

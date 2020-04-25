@@ -36,7 +36,13 @@ public class ParkingLotTests {
     @Test
     public void getAvailableSlots() {
         ParkingLot parkingLot = new ParkingLot(6);
+        parkingLot.create();
         Set<Integer> slots = parkingLot.getAvailableSLots();
         assertThat(slots.size(), equalTo(6));
+
+        parkingLot = new ParkingLot(5);
+        parkingLot.create();
+        slots = parkingLot.getAvailableSLots();
+        assertThat(slots.size(), equalTo(5));
     }
 }
