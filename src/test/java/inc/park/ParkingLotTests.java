@@ -1,9 +1,11 @@
 package inc.park;
 
 import inc.park.models.ParkingLot;
+import inc.park.models.ParkingSlot;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 public class ParkingLotTests {
@@ -16,5 +18,16 @@ public class ParkingLotTests {
         parkingLot = new ParkingLot(5);
         result = parkingLot.create();
         assertThat(result, is("Created a parking lot with 5 slots"));
+    }
+
+    @Test
+    public void getParkingSlots() {
+        ParkingLot parkingLot = new ParkingLot(6);
+        ParkingSlot[] slots = parkingLot.getAllSlots();
+        assertThat(slots.length, equalTo(6));
+
+        parkingLot = new ParkingLot(5);
+        slots = parkingLot.getAllSlots();
+        assertThat(slots.length, equalTo(5));
     }
 }
