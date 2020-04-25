@@ -1,5 +1,6 @@
 package inc.park;
 
+import inc.park.models.Car;
 import inc.park.models.ParkingLot;
 import org.junit.jupiter.api.Test;
 
@@ -46,5 +47,31 @@ public class ParkingLotTests {
         parkingLot.create();
         slots = parkingLot.getAvailableSLots();
         assertThat(slots.size(), equalTo(5));
+    }
+
+    @Test
+    public void parking() {
+        ParkingLot parkingLot = new ParkingLot(3);
+        parkingLot.create();
+
+        // when parking: KA-01-HH-1234 White
+        Car car = new Car("KA-01-HH-1234", "White");
+        String result = parkingLot.park(car);
+        assertThat(result, is("Allocated slot number: 1"));
+
+        // when parking another car: KA-01-HH-9999 White
+        car = new Car("KA-01-HH-9999", "White");
+        result = parkingLot.park(car);
+        assertThat(result, is("Allocated slot number: 2"));
+
+        // park: KA-01-BB-0001 Black
+        car = new Car("KA-01-BB-0001", "Black");
+        result = parkingLot.park(car);
+        assertThat(result, is("Allocated slot number: 3"));
+
+        // park another car, result = full
+        car = new Car("KA-01-HH-7777", "Red");
+        result = parkingLot.park(car);
+        assertThat(result, is("Sorry, parking lot is full"));
     }
 }

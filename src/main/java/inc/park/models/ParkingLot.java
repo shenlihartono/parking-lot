@@ -8,7 +8,7 @@ import java.util.TreeSet;
 public class ParkingLot {
     private Map<Integer, Car> parkingSlots;
     private final int size;
-    private Set<Integer> availableSlots;
+    private TreeSet<Integer> availableSlots;
 
     public ParkingLot(int size) {
         this.parkingSlots = new TreeMap<>();
@@ -30,5 +30,17 @@ public class ParkingLot {
 
     public Set<Integer> getAvailableSLots() {
         return availableSlots;
+    }
+
+    public String park(Car car) {
+        boolean empty = this.availableSlots.isEmpty();
+        if (empty) {
+            return "Sorry, parking lot is full";
+        }
+
+        Integer slot = this.availableSlots.first();
+        this.availableSlots.remove(slot);
+
+        return "Allocated slot number: " + slot;
     }
 }
