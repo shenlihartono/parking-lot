@@ -309,4 +309,48 @@ public class ParkingLotTests {
         number = parkingLot.getSlotNumberFromColor("Pink");
         assertThat(number, equalTo(pinkPlates));
     }
+
+    @Test
+    public void getSlotNumberFromPlate() {
+        ParkingLot parkingLot = new ParkingLot(5);
+        parkingLot.create();
+
+        // when no cars parked at all
+        int number = parkingLot.getSlotNumberFromPlate("KA-01-HH-1234");
+        assertThat(number, is(0));
+
+        // when parking: KA-01-HH-1234 White
+        Car car = new Car("KA-01-HH-1234", "White");
+        String result = parkingLot.park(car);
+        String slotNo = result.substring(result.indexOf(":") + 1);
+        int slotNo1 = Integer.parseInt(slotNo.trim());
+
+        // when parking another car: KA-01-HH-9999 White
+        car = new Car("KA-01-HH-9999", "White");
+        result = parkingLot.park(car);
+        slotNo = result.substring(result.indexOf(":") + 1);
+        int slotNo2 = Integer.parseInt(slotNo.trim());
+
+        // park: KA-01-BB-0001 Black
+        car = new Car("KA-01-BB-0001", "Black");
+        result = parkingLot.park(car);
+        slotNo = result.substring(result.indexOf(":") + 1);
+        int slotNo3 = Integer.parseInt(slotNo.trim());
+
+        // test "KA-01-HH-1234" plate
+        int actualSlot = parkingLot.getSlotNumberFromPlate("KA-01-HH-1234");
+        assertThat(actualSlot, equalTo(slotNo1));
+
+        // test "KA-01-HH-9999" plates
+        actualSlot = parkingLot.getSlotNumberFromPlate("KA-01-HH-9999");
+        assertThat(actualSlot, equalTo(slotNo2));
+
+        // test "KA-01-BB-0001" plates
+        actualSlot = parkingLot.getSlotNumberFromPlate("KA-01-BB-0001");
+        assertThat(actualSlot, equalTo(slotNo3));
+
+        // test "KA-01-HH-7777" plate
+        actualSlot = parkingLot.getSlotNumberFromPlate("KA-01-HH-7777");
+        assertThat(actualSlot, equalTo(0));
+    }
 }

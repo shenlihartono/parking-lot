@@ -105,4 +105,18 @@ public class ParkingLot {
 
         return plates;
     }
+
+    public int getSlotNumberFromPlate(String plate) {
+        if (availableSlots.size() == size) {
+            return 0;
+        }
+
+        for (Map.Entry<Integer, Car> entry : parkingSlots.entrySet()) {
+            if (entry.getValue() != null && entry.getValue().getPlate().equals(plate)) {
+                return entry.getKey();
+            }
+        }
+
+        return 0;
+    }
 }
